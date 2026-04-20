@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Bars3Icon, 
-  XMarkIcon,
-  ChevronRightIcon,
-  CogIcon,
-  ArchiveBoxArrowDownIcon,
-  CreditCardIcon,
-  ChartBarIcon,
-  ClipboardDocumentListIcon,
-  PowerIcon,
-  SparklesIcon,
-  BellIcon
-} from '@heroicons/react/24/outline';
+  LayoutDashboard, 
+  Package, 
+  ShoppingCart, 
+  CreditCard, 
+  BarChart3, 
+  Settings, 
+  LogOut,
+  Bell,
+  Menu,
+  ChevronLeft,
+  Search,
+  Zap,
+  User
+} from 'lucide-react';
+import { useAuthStore } from '../store/authStore';
 
 const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -22,15 +25,13 @@ const DashboardLayout = ({ children }) => {
   const { user, logout } = useAuthStore();
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: ChartBarIcon },
-    { name: 'Products', path: '/products', icon: ArchiveBoxArrowDownIcon },
-    { name: 'Orders', path: '/orders', icon: ClipboardDocumentListIcon },
-    { name: 'Payments', path: '/payments', icon: CreditCardIcon },
-    { name: 'Analytics', path: '/analytics', icon: ChartBarIcon },
-    { name: 'Settings', path: '/settings', icon: CogIcon },
+    { name: 'Overview', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'Products', path: '/products', icon: Package },
+    { name: 'Orders', path: '/orders', icon: ShoppingCart },
+    { name: 'Payments', path: '/payments', icon: CreditCard },
+    { name: 'Analytics', path: '/analytics', icon: BarChart3 },
+    { name: 'Settings', path: '/settings', icon: Settings },
   ];
-
-  const isActive = (path) => location.pathname === path;
 
   const handleLogout = async () => {
     await logout();
@@ -38,116 +39,163 @@ const DashboardLayout = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-[#050505] text-white font-sans selection:bg-white selection:text-black">
       {/* Sidebar */}
-      <aside
-        className={`${
-          sidebarOpen ? 'w-64' : 'w-20'
-        } bg-white border-r border-slate-200 transition-all duration-300 flex flex-col fixed h-full z-50 lg:relative`}
+      <motion.aside
+        initial={false}
+        animate={{ width: sidebarOpen ? 280 : 88 }}
+        className="relative bg-[#0A0A0A] border-r border-white/5 flex flex-col z-50 overflow-hidden"
       >
-        {/* Logo */}
-        <div className="flex items-center justify-between px-6 py-6 border-b border-slate-200">
-          <div className={`flex items-center gap-3 ${!sidebarOpen && 'justify-center w-full'}`}>
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center text-white font-bold text-lg">
-              W
+        {/* Logo Section */}
+        <div className="h-20 flex items-center px-6 border-b border-white/5">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center transition-transform group-hover:scale-105">
+              <span className="text-black font-black text-xl">W</span>
             </div>
-            {sidebarOpen && (
-              <div className="flex flex-col">
-                <span className="font-bold text-slate-900 text-sm">WhatsApp Bot</span>
-                <span className="text-xs text-slate-500">Dashboard</span>
-              </div>
-            )}
+            <AnimatePresence>
+              {sidebarOpen && (
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="flex flex-col whitespace-nowrap"
+                >
+                  <span className="font-bold text-sm tracking-tight">WhatsApp Dash</span>
+                  <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Pro Account</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Link>
+        </div>
+
+        {/* Search Bar (Framer Style) */}
+        <div className="px-4 py-6">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-white transition-colors" />
+            <input 
+              type="text" 
+              placeholder={sidebarOpen ? "Search everything..." : ""} 
+              className={`w-full bg-white/5 border border-white/5 rounded-xl py-2.5 outline-none focus:ring-1 focus:ring-white/10 transition-all ${sidebarOpen ? 'pl-10 pr-4' : 'pl-4 pr-0 cursor-pointer pointer-events-none opacity-0'}`} 
+            />
           </div>
         </div>
 
-        {/* Menu Items */}
-        <nav className="flex-1 p-4 overflow-y-auto">
-          <div className="space-y-1">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
-                    active
-                      ? 'bg-primary-50 text-primary-700 font-semibold'
-                      : 'text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
+        {/* Navigation */}
+        <nav className="flex-1 px-3 space-y-1">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const active = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 group ${
+                  active ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
+                }`}
+              >
+                {active && (
+                  <motion.div
+                    layoutId="active-pill"
+                    className="absolute inset-0 bg-white/5 rounded-xl border border-white/10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <Icon size={20} className={`relative z-10 ${active ? 'text-white' : 'group-hover:scale-110 transition-transform'}`} />
+                <AnimatePresence>
                   {sidebarOpen && (
-                    <div className="flex items-center justify-between flex-1">
-                      <span className="text-sm">{item.name}</span>
-                      {active && <ChevronRightIcon className="w-4 h-4" />}
-                    </div>
+                    <motion.span
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      className="relative z-10 text-sm font-medium whitespace-nowrap"
+                    >
+                      {item.name}
+                    </motion.span>
                   )}
-                </Link>
-              );
-            })}
-          </div>
+                </AnimatePresence>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="border-t border-slate-200 p-4 space-y-2">
+        <div className="p-4 border-t border-white/5 mt-auto bg-[#0A0A0A]">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 font-semibold text-sm group"
+            className="w-full flex items-center gap-3 px-3 py-3 text-zinc-500 hover:text-red-400 rounded-xl transition-all group"
           >
-            <PowerIcon className="w-5 h-5" />
-            {sidebarOpen && 'Logout'}
+            <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
+            {sidebarOpen && <span className="text-sm font-medium">System Logout</span>}
           </button>
           
-          {sidebarOpen && (
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="w-full flex items-center gap-3 px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-all duration-200 text-sm"
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="mt-2 w-full flex items-center gap-3 px-3 py-2 text-zinc-600 hover:text-white transition-all"
+          >
+            <motion.div
+              animate={{ rotate: sidebarOpen ? 0 : 180 }}
+              transition={{ duration: 0.3 }}
             >
-              <XMarkIcon className="w-5 h-5" />
-              <span>Close</span>
-            </button>
-          )}
-          
-          {!sidebarOpen && (
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="w-full flex items-center justify-center p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-all duration-200"
-            >
-              <Bars3Icon className="w-5 h-5" />
-            </button>
-          )}
+              <ChevronLeft size={20} />
+            </motion.div>
+            {sidebarOpen && <span className="text-xs font-semibold uppercase tracking-wider">Collapse View</span>}
+          </button>
         </div>
-      </aside>
+      </motion.aside>
 
-      {/* Main Content */}
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Top Navigation Bar */}
-        <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
-          <div className="px-6 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              {!sidebarOpen && (
-                <button
-                  onClick={() => setSidebarOpen(true)}
-                  className="lg:hidden p-2 hover:bg-slate-100 rounded-lg transition-colors"
-                >
-                  <Bars3Icon className="w-6 h-6 text-slate-600" />
-                </button>
-              )}
-              <h1 className="text-2xl font-bold text-slate-900">
-                {menuItems.find(item => item.path === location.pathname)?.name || 'Dashboard'}
-              </h1>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              {/* Notification Bell */}
-              <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors relative group">
-                <BellIcon className="w-6 h-6 text-slate-600" />
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 bg-[#050505] relative">
+        {/* Subtle Background Grain */}
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+
+        {/* Global Toolbar */}
+        <header className="h-20 flex items-center justify-between px-8 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-40">
+          <div className="flex items-center gap-4">
+            <h2 className="text-xl font-bold tracking-tight">
+              {menuItems.find(item => item.path === location.pathname)?.name || 'Dashboard'}
+            </h2>
+          </div>
+          
+          <div className="flex items-center gap-6">
+            <motion.div 
+               whileHover={{ scale: 1.05 }}
+               className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-zinc-900 border border-white/10 rounded-full cursor-pointer hover:bg-zinc-800 transition-all"
+            >
+              <Zap size={14} className="text-primary-400" />
+              <span className="text-[11px] font-bold uppercase tracking-tighter">Pro Mode</span>
+            </motion.div>
+
+            <div className="flex items-center gap-2 border-l border-white/10 pl-6">
+              <button className="p-2 text-zinc-400 hover:text-white transition-colors relative">
+                <Bell size={20} />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-primary-500 rounded-full border-2 border-[#050505]"></span>
               </button>
+              
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-zinc-800 to-zinc-600 border border-white/10 flex items-center justify-center ml-2 cursor-pointer hover:opacity-80 transition-opacity">
+                <User size={16} />
+              </div>
+            </div>
+          </div>
+        </header>
 
-              {/* User Profile */}
-              <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto p-8 relative">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-7xl mx-auto"
+          >
+            {children}
+          </motion.div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardLayout;
                 <div className="text-right">
                   <p className="text-sm font-semibold text-slate-900">Account</p>
                   <p className="text-xs text-slate-500">
