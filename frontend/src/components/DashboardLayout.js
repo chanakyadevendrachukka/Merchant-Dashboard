@@ -174,12 +174,3 @@ const DashboardLayout = ({ children }) => {
 };
 
 export default DashboardLayout;
-        <main className="flex-1 overflow-auto p-6">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
-};
-
-export default DashboardLayout;
