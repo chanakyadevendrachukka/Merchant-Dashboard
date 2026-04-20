@@ -6,6 +6,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
@@ -14,8 +15,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f3f4f6;
-  color: #111827;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
 }
 
 textarea {
@@ -45,6 +47,43 @@ button {
   background: #94a3b8;
 }
 
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.375rem;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-size: 0.875rem;
+}
+
+p {
+  color: #64748b;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -61,6 +100,36 @@ button {
   animation: fadeIn 0.3s ease-out;
 }
 
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.4s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.4s ease-out;
+}
+
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -74,29 +143,232 @@ button {
   animation: spin-slow 3s linear infinite;
 }
 
-/* Utility classes */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(
+    to right,
+    #f1f5f9 0%,
+    #e2e8f0 20%,
+    #f1f5f9 40%,
+    #f1f5f9 100%
+  );
+  background-size: 1000px 100%;
+}
+
+/* Form Elements */
 .form-input {
-  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all;
+  @apply w-full px-4 py-2.5 border border-slate-200 rounded-lg 
+         focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent 
+         transition-all duration-200 bg-white text-slate-900 placeholder-slate-500;
+}
+
+.form-input:disabled {
+  @apply bg-slate-50 text-slate-500 cursor-not-allowed;
 }
 
 .form-textarea {
-  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all;
+  @apply w-full px-4 py-2.5 border border-slate-200 rounded-lg 
+         focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent 
+         transition-all duration-200 bg-white text-slate-900 placeholder-slate-500;
 }
 
+.form-textarea:disabled {
+  @apply bg-slate-50 text-slate-500 cursor-not-allowed;
+}
+
+/* Buttons */
 .btn-primary {
-  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed;
+  @apply inline-flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 
+         text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 
+         disabled:bg-slate-400 disabled:cursor-not-allowed shadow-sm hover:shadow-md 
+         active:scale-95;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors;
+  @apply inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 
+         text-slate-900 font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 
+         disabled:opacity-50 disabled:cursor-not-allowed active:scale-95;
 }
 
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 bg-transparent hover:bg-slate-100 
+         text-slate-700 font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 
+         disabled:opacity-50 disabled:cursor-not-allowed active:scale-95;
+}
+
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 
+         text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 
+         disabled:bg-slate-400 disabled:cursor-not-allowed shadow-sm hover:shadow-md 
+         active:scale-95;
+}
+
+.btn-sm {
+  @apply py-1.5 px-3 text-sm;
+}
+
+.btn-lg {
+  @apply py-3 px-8 text-lg;
+}
+
+.btn-icon {
+  @apply inline-flex items-center justify-center w-10 h-10 rounded-lg 
+         transition-all duration-200 active:scale-95;
+}
+
+/* Cards */
+.card {
+  @apply bg-white rounded-xl border border-slate-200 p-6 shadow-sm 
+         hover:shadow-md transition-all duration-200;
+}
+
+.card-hover {
+  @apply hover:border-primary-300 hover:shadow-lg;
+}
+
+/* Badges */
 .badge {
-  @apply inline-block px-3 py-1 rounded-full text-sm font-medium;
+  @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
 }
 
 .badge-success {
-  @apply bg-green-100 text-green-800;
+  @apply bg-emerald-100 text-emerald-700;
+}
+
+.badge-danger {
+  @apply bg-red-100 text-red-700;
+}
+
+.badge-warning {
+  @apply bg-amber-100 text-amber-700;
+}
+
+.badge-info {
+  @apply bg-primary-100 text-primary-700;
+}
+
+.badge-secondary {
+  @apply bg-slate-100 text-slate-700;
+}
+
+/* Tables */
+.table {
+  @apply w-full border-collapse;
+}
+
+.table thead {
+  @apply bg-slate-50 border-b border-slate-200;
+}
+
+.table thead th {
+  @apply px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide;
+}
+
+.table tbody td {
+  @apply px-6 py-4 border-b border-slate-200 text-slate-700;
+}
+
+.table tbody tr {
+  @apply hover:bg-slate-50 transition-colors;
+}
+
+.table tbody tr:hover {
+  @apply bg-slate-50;
+}
+
+/* Status Indicators */
+.status-dot {
+  @apply inline-block w-2.5 h-2.5 rounded-full;
+}
+
+.status-online {
+  @apply bg-emerald-500;
+}
+
+.status-offline {
+  @apply bg-slate-400;
+}
+
+.status-busy {
+  @apply bg-amber-500;
+}
+
+/* Utility Classes */
+.text-muted {
+  @apply text-slate-600;
+}
+
+.text-light {
+  @apply text-slate-400;
+}
+
+.bg-light {
+  @apply bg-slate-50;
+}
+
+.border-light {
+  @apply border-slate-200;
+}
+
+.gradient-primary {
+  @apply bg-gradient-to-br from-primary-500 to-primary-700;
+}
+
+.gradient-secondary {
+  @apply bg-gradient-to-br from-purple-500 to-pink-500;
+}
+
+.gradient-accent {
+  @apply bg-gradient-to-br from-orange-500 to-red-500;
+}
+
+/* Shadows */
+.shadow-soft {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-md-soft {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+/* Loading State */
+.loading {
+  @apply opacity-60 pointer-events-none;
+}
+
+.skeleton {
+  @apply bg-slate-200 rounded animate-pulse;
+}
+
+/* Links */
+a {
+  @apply text-primary-600 hover:text-primary-700 transition-colors;
+}
+
+a:visited {
+  @apply text-purple-600;
 }
 
 .badge-warning {

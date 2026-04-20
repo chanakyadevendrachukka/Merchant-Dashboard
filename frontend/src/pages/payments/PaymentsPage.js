@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { paymentsAPI } from '../../api/client';
+import { CreditCardIcon, BanknotesIcon } from '@heroicons/react/24/outline';
 
 const PaymentsPage = () => {
   const [activeTab, setActiveTab] = useState('payments');
@@ -28,61 +29,92 @@ const PaymentsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-800">Payments & Settlements</h1>
+    <div className="space-y-6 fade-in">
+      <div>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Payments & Settlements</h1>
+        <p className="text-slate-600">Track all your payments and settlements here</p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="card">
+          <p className="text-sm text-slate-600 font-medium">Total Payments</p>
+          <p className="text-3xl font-bold text-slate-900 mt-2">₹0</p>
+          <p className="text-xs text-slate-500 mt-2">All transactions</p>
+        </div>
+        <div className="card">
+          <p className="text-sm text-slate-600 font-medium">Pending Settlement</p>
+          <p className="text-3xl font-bold text-amber-600 mt-2">₹0</p>
+          <p className="text-xs text-slate-500 mt-2">Processing</p>
+        </div>
+        <div className="card">
+          <p className="text-sm text-slate-600 font-medium">This Month</p>
+          <p className="text-3xl font-bold text-emerald-600 mt-2">₹0</p>
+          <p className="text-xs text-slate-500 mt-2">All time</p>
+        </div>
+      </div>
 
       {/* Tabs */}
-      <div className="flex gap-4 border-b">
+      <div className="flex gap-2 border-b border-slate-200">
         <button
           onClick={() => setActiveTab('payments')}
-          className={`px-4 py-3 font-medium border-b-2 transition-colors ${
+          className={`px-4 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
             activeTab === 'payments'
-              ? 'text-blue-600 border-blue-600'
-              : 'text-gray-600 border-transparent hover:text-gray-800'
+              ? 'text-primary-600 border-primary-600'
+              : 'text-slate-600 border-transparent hover:text-slate-800'
           }`}
         >
-          💳 Payments
+          <CreditCardIcon className="w-5 h-5" />
+          Payments
         </button>
         <button
           onClick={() => setActiveTab('settlements')}
-          className={`px-4 py-3 font-medium border-b-2 transition-colors ${
+          className={`px-4 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
             activeTab === 'settlements'
-              ? 'text-blue-600 border-blue-600'
-              : 'text-gray-600 border-transparent hover:text-gray-800'
+              ? 'text-primary-600 border-primary-600'
+              : 'text-slate-600 border-transparent hover:text-slate-800'
           }`}
         >
-          🏦 Settlements
+          <BanknotesIcon className="w-5 h-5" />
+          Settlements
         </button>
       </div>
 
+      {/* Content */}
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="flex items-center justify-center py-16">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        </div>
       ) : data.length === 0 ? (
-        <div className="bg-white rounded-lg shadow p-8 text-center">
-          <p className="text-gray-500">No {activeTab} yet</p>
+        <div className="card text-center py-16">
+          <p className="text-slate-600 font-medium text-lg">No {activeTab} yet</p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+        <div className="card overflow-x-auto">
+          <table className="table">
+            <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">ID</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Amount</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Date</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Actions</th>
+                <th>Transaction ID</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
-              <tr className="hover:bg-gray-50">
-                <td className="px-6 py-3 font-medium text-gray-800">PAY001</td>
-                <td className="px-6 py-3 font-medium text-gray-800">₹5,000</td>
-                <td className="px-6 py-3 text-gray-600">2024-01-15</td>
-                <td className="px-6 py-3"><span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Completed</span></td>
-                <td className="px-6 py-3">
-                  <button className="text-blue-600 hover:underline text-sm font-medium">View</button>
-                </td>
-              </tr>
+            <tbody>
+              {data.map((item, idx) => (
+                <tr key={idx}>
+                  <td className="font-semibold text-slate-900">#{String(idx + 1).padStart(6, '0')}</td>
+                  <td className="font-semibold text-slate-900">₹0</td>
+                  <td className="text-slate-600 text-sm">2024-01-15</td>
+                  <td>
+                    <span className="badge badge-success">Completed</span>
+                  </td>
+                  <td>
+                    <button className="text-primary-600 hover:text-primary-700 font-semibold text-sm">View</button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
