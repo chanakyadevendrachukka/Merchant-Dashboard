@@ -1,0 +1,54 @@
+# Backend
+backend/node_modules/
+backend/.env
+backend/.env.local
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/.DS_Store
+backend/logs/
+backend/dist/
+backend/build/
+
+# Frontend
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.DS_Store
+frontend/build/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.env.*.swp
+
+# General
+.DS_Store
+Thumbs.db
+*.log
+.cache/
+.next/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.tar.gz
+
+# Temp files
+tmp/
+temp/
+*.tmp
