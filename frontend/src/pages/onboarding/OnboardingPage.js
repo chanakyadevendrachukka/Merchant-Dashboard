@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { onboardingAPI } from '../../api/client';
 
 const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
 
   const steps = [
     { id: 1, name: 'Basic Details', icon: '📝' },

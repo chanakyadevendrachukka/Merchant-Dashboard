@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { analyticsAPI } from '../../api/client';
 
 const AnalyticsPage = () => {
-  const [summary, setSummary] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -13,7 +12,6 @@ const AnalyticsPage = () => {
     setIsLoading(true);
     try {
       const response = await analyticsAPI.getSummary();
-      setSummary(response.data.summary);
     } catch (error) {
       console.error('Failed to fetch analytics:', error);
     } finally {
