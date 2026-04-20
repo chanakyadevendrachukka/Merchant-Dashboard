@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { settingsAPI } from '../../api/client';
 import { useAuthStore } from '../../store/authStore';
-import { UserIcon, ShieldLockIcon, LinkIcon, DocumentCheckIcon } from '@heroicons/react/24/outline';
+import { UserIcon, ShieldCheckIcon, LinkIcon, DocumentCheckIcon } from '@heroicons/react/24/outline';
 
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -47,7 +47,7 @@ const SettingsPage = () => {
 
   const tabs = [
     { id: 'profile', name: 'Profile', icon: UserIcon },
-    { id: 'security', name: 'Security', icon: ShieldLockIcon },
+    { id: 'security', name: 'Security', icon: ShieldCheckIcon },
     { id: 'integrations', name: 'Integrations', icon: LinkIcon },
     { id: 'policies', name: 'Policies', icon: DocumentCheckIcon },
   ];
