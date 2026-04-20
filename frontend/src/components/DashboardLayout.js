@@ -196,29 +196,3 @@ const DashboardLayout = ({ children }) => {
 };
 
 export default DashboardLayout;
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-slate-900">Account</p>
-                  <p className="text-xs text-slate-500">
-                    {user?.phone || 'User'}
-                  </p>
-                </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center text-white font-semibold text-sm">
-                  {user?.phone ? user.phone.substring(0, 1).toUpperCase() : 'A'}
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Page Content */}
-        <main className="flex-1 overflow-auto">
-          <div className="p-6">
-            {children}
-          </div>
-        </main>
-      </div>
-    </div>
-  );
-};
-
-export default DashboardLayout;

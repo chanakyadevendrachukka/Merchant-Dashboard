@@ -174,30 +174,6 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 disabled:from-slate-500 disabled:to-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg shadow-primary-500/50 disabled:shadow-none disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                  Logging in...
-                </span>
-              ) : (
-                'Login'
-              )}
-            </button>
-
-            {/* Divider */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/20"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-400">Or continue with</span>
               </div>
             </div>
 
