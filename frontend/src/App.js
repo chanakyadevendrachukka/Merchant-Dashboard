@@ -40,7 +40,7 @@ const PublicRoute = ({ component }) => {
 };
 
 function App() {
-  const { isAuthenticated, accessToken } = useAuthStore();
+  const { accessToken } = useAuthStore();
 
   useEffect(() => {
     // Check authentication on app load
